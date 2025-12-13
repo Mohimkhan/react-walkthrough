@@ -1,0 +1,1 @@
+export const DEFAUTL_DURATION_OF_STEP_VISIBILITY: number = 2000;

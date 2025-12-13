@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "bundler", 
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "target": "es2020",
+        "module": "esnext",
+        "strict": true,
+        "declaration": true,
+        "declarationDir": "./dist/index.d.ts"
+    }
+}

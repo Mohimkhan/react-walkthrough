@@ -1,0 +1,28 @@
+{
+  "name": "react-walkthrough",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npx rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.2.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.2.0",
+    "rollup": "^4.52.3",
+    "tslib": "^2.8.1"
+  }
+}
