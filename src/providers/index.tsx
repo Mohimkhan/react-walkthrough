@@ -16,7 +16,7 @@ export interface WalkthroughStep {
   highlightElement?: ReactNode;
   hightLightElementID?: string;
   modal?: ReactNode;
-  duration: number;
+  duration?: number;
 }
 
 // context type
@@ -73,7 +73,7 @@ const WalkThroughProvider: React.FC<WalkthroughProviderProps> = ({
         activeStep.modal &&
         createPortal(
           activeStep?.modal ?? <Modal step={activeStep} />,
-          document.getElementById("tour-modal-container") as HTMLElement
+          document.getElementById("tour-modal-container") as HTMLElement ?? document.body
         )}
     </WalkthroughContext>
   );

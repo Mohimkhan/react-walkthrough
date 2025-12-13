@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { WalkthroughContext, WalkthroughStep } from "../providers/index";
 import { sleep } from "../utils";
-import { DEFAUTL_DURATION_OF_STEP_VISIBILITY } from "../constant";
+import {
+  DEFAUTL_DURATION_OF_STEP_VISIBILITY,
+  TOUR_CONTAINER_ID,
+} from "../constant";
 
 type simulateStepParams = {
   step: WalkthroughStep;
@@ -27,19 +30,18 @@ const useWalkThrough = () => {
   }: simulateStepParams) => {
     if (!automatic) return;
 
-    let container = document.getElementById(
-      "tour-modal-container"
-    ) as HTMLElement;
+    let container = document.getElementById(TOUR_CONTAINER_ID) as HTMLElement;
 
     if (!container) {
       console.error(
-        `Element with the ID:tour-modal-container was not found in the document body`
+        `Element with the ID:${TOUR_CONTAINER_ID} was not found in the document body`
       );
       return;
     }
 
     if (index === 0) {
       setActiveStep(step);
+      console.log(`Step ${step?.id} is started!`);
       return;
     }
 
@@ -47,26 +49,26 @@ const useWalkThrough = () => {
       delay: step?.duration ?? DEFAUTL_DURATION_OF_STEP_VISIBILITY,
     });
 
+    console.log(`Step ${step?.id} is started!`);
+
     setActiveStep(step);
 
     if (index === stepsLen - 1) {
+      // so that the step doesn't vanished immediately
       await sleep({
-        delay: 1000,
+        delay: step?.duration ?? DEFAUTL_DURATION_OF_STEP_VISIBILITY,
       });
-      container.children[0].remove();
-      container.removeAttribute("style");
-    }
 
-    console.log(`Step ${step?.id} is finished!`);
+      container.remove();
+    }
   };
 
   const startTour = async (tourName?: string) => {
-    // Logic 1: Check if tours exist
+    // check if tours are present
     if (!givenTours || givenTours.length === 0) {
       console.error("React-Walkthrough: No tours provided.");
       return;
     }
-
 
     let activeTour;
     if (tourName) {
@@ -80,20 +82,19 @@ const useWalkThrough = () => {
       return;
     }
 
+    // check if active tour has valid steps
     if (!activeTour.steps || activeTour.steps.length === 0) {
       console.error(`React-Walkthrough: ${tourName} has no steps.`);
       return;
     }
 
-    let container = document.getElementById(
-      "tour-modal-container"
-    ) as HTMLElement;
+    let container = document.getElementById(TOUR_CONTAINER_ID) as HTMLElement;
     if (!container) {
       console.warn(
-        "React-Walkthrough: #tour-modal-container missing. Creating it automatically..."
+        `React-Walkthrough: #${TOUR_CONTAINER_ID} missing. Creating it automatically...`
       );
       container = document.createElement("div");
-      container.id = "tour-modal-container";
+      container.id = TOUR_CONTAINER_ID;
       container.style.position = "fixed";
       container.style.top = "0";
       container.style.left = "0";
@@ -130,15 +131,13 @@ const useWalkThrough = () => {
         index: i,
         stepsLen,
         step: steps[i],
-        automatic: true,
+        automatic: automatic ?? true,
       });
     }
   };
 
   return {
     startTour,
-    tours: givenTours,
-    automatic,
   };
 };
 
